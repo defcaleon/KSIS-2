@@ -23,29 +23,29 @@ public class Main extends JFrame {
     private final String IP_BROADCAST="192.168.0.255";
 
 
-    private class thdReciever extends  Thread{
+    private class thdReceiver extends  Thread{
         @Override
         public void start(){
             super.start();
             try {
-                cuztomize();
+                customize();
             }catch (Exception ex){
                 ex.printStackTrace();
             }
 
         }
-        private void cuztomize() throws Exception{
-            DatagramSocket recieveSocket = new DatagramSocket(PORT);
+        private void customize() throws Exception{
+            DatagramSocket receiveSocket = new DatagramSocket(PORT);
             Pattern regex = Pattern.compile("[\u0020-\uFFFF]");
 
             while(true){
                 byte[] receiveData = new byte[1024];
-                DatagramPacket recievePacket= new DatagramPacket(receiveData,receiveData.length);
-                recieveSocket.receive(recievePacket);
-                InetAddress IPAddress = recievePacket.getAddress();
-                int port = recievePacket.getPort();
+                DatagramPacket receivePacket= new DatagramPacket(receiveData,receiveData.length);
+                receiveSocket.receive(receivePacket);
+                InetAddress IPAddress = receivePacket.getAddress();
+                int port = receivePacket.getPort();
 
-                String sentence = new String(recievePacket.getData());
+                String sentence = new String(receivePacket.getData());
                 Matcher m = regex.matcher(sentence);
 
                 textArea.append(IPAddress.toString()+":"+port+": ");
@@ -103,7 +103,7 @@ public class Main extends JFrame {
 
     private void antistatic(){
         frameDraw(new Main());
-        new thdReciever().start();
+        new thdReceiver().start();
     }
 
     public static  void main(String[] args){
